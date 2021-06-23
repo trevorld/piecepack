@@ -25,6 +25,8 @@ piecepackr: Board Game Graphics
 
 .. _rayrender: https://www.rayrender.net/
 
+.. _rayvertex: https://www.rayvertex.com/
+
 .. _rgl: https://www.rdocumentation.org/packages/rgl
 
 .. _R: https://www.r-project.org/
@@ -41,7 +43,7 @@ piecepackr: Board Game Graphics
 
 
 
-``piecepackr`` is an R_ package designed to make configurable board game graphics.  It can be used with the grid_, rayrender_, and rgl_ graphics packages to make board game diagrams, board game animations, and custom `Print & Play layouts`_.    By default it is configured to make piecepack_ game diagrams, animations, and "Print & Play" layouts but can be configured to make graphics for other board game systems as well.
+``piecepackr`` is an R_ package designed to make configurable board game graphics.  It can be used with the grid_, rayrender_, rayvertex_, and rgl_ graphics packages to make board game diagrams, board game animations, and custom `Print & Play layouts`_.    By default it is configured to make piecepack_ game diagrams, animations, and "Print & Play" layouts but can be configured to make graphics for other board game systems as well.
 
 Built-in Game Systems
 ---------------------
@@ -171,8 +173,8 @@ Configurations for the proprietary Looney Pyramids aka Icehouse Pieces game syst
 API Intro
 ---------
 
-grid.piece
-~~~~~~~~~~
+grid.piece ({grid})
+~~~~~~~~~~~~~~~~~~~
 
 ``grid.piece`` is the core function that can used to draw board game components (by default piecepack_ game components) using grid_:
 
@@ -338,7 +340,7 @@ If you are comfortable using R data frames there is also ``pmap_piece`` that pro
 piece3d ({rgl})
 ~~~~~~~~~~~~~~~
 
-``piece3d()`` draws pieces using ``{rgl}`` graphics.
+``piece3d()`` draws pieces using rgl_ graphics.
 
 
 .. sourcecode:: r
@@ -363,7 +365,7 @@ piece3d ({rgl})
 piece ({rayrender})
 ~~~~~~~~~~~~~~~~~~~
 
-``piece()`` creates ``{rayrender}`` objects.
+``piece()`` creates rayrender_ objects.
 
 
 .. sourcecode:: r
@@ -389,7 +391,7 @@ piece ({rayrender})
 piece_mesh ({rayvertex})
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-``piece_mesh()`` creates ``{rayvertex}`` objects.
+``piece_mesh()`` creates rayvertex_ objects.
 
 
 .. sourcecode:: r
