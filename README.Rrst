@@ -333,7 +333,6 @@ piece_mesh ({rayvertex})
 
 .. {r rayvertex, fig.width=5, fig.height=5, dpi=100, fig.keep='last', fig.caption="3D render with rayvertex package"}
 library("ppgames") # remotes::install_github("piecepackr/ppgames")
-library("magrittr")
 library("rayvertex")
 df <- ppgames::df_international_chess()
 envir <- game_systems("dejavu3d", round=TRUE, pawn="joystick")

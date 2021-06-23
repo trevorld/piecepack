@@ -1,7 +1,7 @@
 piecepackr 1.8.0
 ================
 
-* New piece_mesh() function that creates {rayvertex} options.
+* New piece_mesh() function that creates {rayvertex} objects.
 
   * Requires suggested package {rayvertex}.
   * Can further customize how piece_mesh() creates {rayvertex} object
