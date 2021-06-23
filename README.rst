@@ -25,6 +25,8 @@ piecepackr: Board Game Graphics
 
 .. _rayrender: https://www.rayrender.net/
 
+.. _rayvertex: https://www.rayvertex.com/
+
 .. _rgl: https://www.rdocumentation.org/packages/rgl
 
 .. _R: https://www.r-project.org/
@@ -41,7 +43,7 @@ piecepackr: Board Game Graphics
 
 
 
-``piecepackr`` is an R_ package designed to make configurable board game graphics.  It can be used with the grid_, rayrender_, and rgl_ graphics packages to make board game diagrams, board game animations, and custom `Print & Play layouts`_.    By default it is configured to make piecepack_ game diagrams, animations, and "Print & Play" layouts but can be configured to make graphics for other board game systems as well.
+``piecepackr`` is an R_ package designed to make configurable board game graphics.  It can be used with the grid_, rayrender_, rayvertex_, and rgl_ graphics packages to make board game diagrams, board game animations, and custom `Print & Play layouts`_.    By default it is configured to make piecepack_ game diagrams, animations, and "Print & Play" layouts but can be configured to make graphics for other board game systems as well.
 
 Built-in Game Systems
 ---------------------
@@ -171,8 +173,8 @@ Configurations for the proprietary Looney Pyramids aka Icehouse Pieces game syst
 API Intro
 ---------
 
-grid.piece
-~~~~~~~~~~
+grid.piece ({grid})
+~~~~~~~~~~~~~~~~~~~
 
 ``grid.piece`` is the core function that can used to draw board game components (by default piecepack_ game components) using grid_:
 
@@ -335,10 +337,10 @@ If you are comfortable using R data frames there is also ``pmap_piece`` that pro
 
     'pmap_piece' lets you use data frames as input
 
-piece3d (rgl)
-~~~~~~~~~~~~~
+piece3d ({rgl})
+~~~~~~~~~~~~~~~
 
-``piece3d`` draws pieces using ``rgl`` graphics.
+``piece3d()`` draws pieces using rgl_ graphics.
 
 
 .. sourcecode:: r
@@ -360,10 +362,10 @@ piece3d (rgl)
 
     3D render with rgl package
 
-piece (rayrender)
-~~~~~~~~~~~~~~~~~
+piece ({rayrender})
+~~~~~~~~~~~~~~~~~~~
 
-``piece`` creates ``rayrender`` objects.
+``piece()`` creates rayrender_ objects.
 
 
 .. sourcecode:: r
@@ -385,6 +387,49 @@ piece (rayrender)
     :alt: plot of chunk rayrender
 
     plot of chunk rayrender
+
+piece_mesh ({rayvertex})
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+``piece_mesh()`` creates rayvertex_ objects.
+
+
+.. sourcecode:: r
+    
+
+    library("ppgames") # remotes::install_github("piecepackr/ppgames")
+    library("rayvertex")
+
+
+::
+
+    ## 
+    ## Attaching package: 'rayvertex'
+
+
+
+::
+
+    ## The following object is masked from 'package:rayrender':
+    ## 
+    ##     r_obj
+
+
+.. sourcecode:: r
+    
+
+    df <- ppgames::df_international_chess()
+    envir <- game_systems("dejavu3d", round=TRUE, pawn="joystick")
+    l <- pmap_piece(df, piece_mesh, trans=op_transform, envir = envir, scale = 0.98, res = 150, as_top="pawn_face")
+    table <- sphere_mesh(c(0, 0, -1e3), radius=1e3, material = material_list(diffuse="grey40"))
+    scene <- Reduce(rayvertex::add_shape, l, init=table)
+    rayvertex::rasterize_scene(scene, lookat = c(4.5, 4, 0), lookfrom=c(4.5, -16, 20),
+                               light_info = directional_light(c(5, -7, 7), intensity = 2.5))
+
+.. figure:: man/figures/README-rayvertex-1.png
+    :alt: plot of chunk rayvertex
+
+    plot of chunk rayvertex
 
 Further documentation
 ~~~~~~~~~~~~~~~~~~~~~

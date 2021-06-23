@@ -25,6 +25,8 @@ piecepackr: Board Game Graphics
 
 .. _rayrender: https://www.rayrender.net/
 
+.. _rayvertex: https://www.rayvertex.com/
+
 .. _rgl: https://www.rdocumentation.org/packages/rgl
 
 .. _R: https://www.r-project.org/
@@ -43,7 +45,7 @@ piecepackr: Board Game Graphics
 knitr::opts_chunk$set(fig.path = "man/figures/README-")
 .. ..
 
-``piecepackr`` is an R_ package designed to make configurable board game graphics.  It can be used with the grid_, rayrender_, and rgl_ graphics packages to make board game diagrams, board game animations, and custom `Print & Play layouts`_.    By default it is configured to make piecepack_ game diagrams, animations, and "Print & Play" layouts but can be configured to make graphics for other board game systems as well.
+``piecepackr`` is an R_ package designed to make configurable board game graphics.  It can be used with the grid_, rayrender_, rayvertex_, and rgl_ graphics packages to make board game diagrams, board game animations, and custom `Print & Play layouts`_.    By default it is configured to make piecepack_ game diagrams, animations, and "Print & Play" layouts but can be configured to make graphics for other board game systems as well.
 
 Built-in Game Systems
 ---------------------
@@ -152,8 +154,8 @@ Configurations for the proprietary Looney Pyramids aka Icehouse Pieces game syst
 API Intro
 ---------
 
-grid.piece
-~~~~~~~~~~
+grid.piece ({grid})
+~~~~~~~~~~~~~~~~~~~
 
 ``grid.piece`` is the core function that can used to draw board game components (by default piecepack_ game components) using grid_:
 
@@ -281,10 +283,10 @@ cfg <- game_systems("dejavu")$piecepack
 pmap_piece(df, cfg=cfg, default.units="in", trans=op_transform, op_scale=0.5, op_angle=135)
 .. ..
 
-piece3d (rgl)
-~~~~~~~~~~~~~
+piece3d ({rgl})
+~~~~~~~~~~~~~~~
 
-``piece3d`` draws pieces using ``rgl`` graphics.
+``piece3d()`` draws pieces using rgl_ graphics.
 
 .. {r rgl}
 library("ppgames") # remotes::install_github("piecepackr/ppgames")
@@ -307,10 +309,10 @@ rgl.snapshot("man/figures/README-rgl_snapshot.png", top = FALSE)
 
     3D render with rgl package
 
-piece (rayrender)
-~~~~~~~~~~~~~~~~~
+piece ({rayrender})
+~~~~~~~~~~~~~~~~~~~
 
-``piece`` creates ``rayrender`` objects.
+``piece()`` creates rayrender_ objects.
 
 .. {r rayrender, fig.width=5, fig.height=5, dpi=100, fig.keep='last', fig.caption="3D render with rayrender package"}
 library("ppgames") # remotes::install_github("piecepackr/ppgames")
@@ -324,6 +326,23 @@ table <- sphere(z=-1e3, radius=1e3, material=diffuse(color="green")) %>%
 scene <- Reduce(rayrender::add_object, l, init=table)
 rayrender::render_scene(scene, lookat = c(5, 5, 0), lookfrom = c(5, -7, 25), 
                         width = 500, height = 500, samples=200, clamp_value=8)
+.. ..
+
+piece_mesh ({rayvertex})
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+``piece_mesh()`` creates rayvertex_ objects.
+
+.. {r rayvertex, fig.width=5, fig.height=5, dpi=100, fig.keep='last', fig.caption="3D render with rayvertex package"}
+library("ppgames") # remotes::install_github("piecepackr/ppgames")
+library("rayvertex")
+df <- ppgames::df_international_chess()
+envir <- game_systems("dejavu3d", round=TRUE, pawn="joystick")
+l <- pmap_piece(df, piece_mesh, trans=op_transform, envir = envir, scale = 0.98, res = 150, as_top="pawn_face")
+table <- sphere_mesh(c(0, 0, -1e3), radius=1e3, material = material_list(diffuse="grey40"))
+scene <- Reduce(rayvertex::add_shape, l, init=table)
+rayvertex::rasterize_scene(scene, lookat = c(4.5, 4, 0), lookfrom=c(4.5, -16, 20),
+                           light_info = directional_light(c(5, -7, 7), intensity = 2.5))
 .. ..
 
 Further documentation
