@@ -335,10 +335,10 @@ If you are comfortable using R data frames there is also ``pmap_piece`` that pro
 
     'pmap_piece' lets you use data frames as input
 
-piece3d (rgl)
-~~~~~~~~~~~~~
+piece3d ({rgl})
+~~~~~~~~~~~~~~~
 
-``piece3d`` draws pieces using ``rgl`` graphics.
+``piece3d()`` draws pieces using ``{rgl}`` graphics.
 
 
 .. sourcecode:: r
@@ -360,10 +360,10 @@ piece3d (rgl)
 
     3D render with rgl package
 
-piece (rayrender)
-~~~~~~~~~~~~~~~~~
+piece ({rayrender})
+~~~~~~~~~~~~~~~~~~~
 
-``piece`` creates ``rayrender`` objects.
+``piece()`` creates ``{rayrender}`` objects.
 
 
 .. sourcecode:: r
@@ -385,6 +385,50 @@ piece (rayrender)
     :alt: plot of chunk rayrender
 
     plot of chunk rayrender
+
+piece_mesh ({rayvertex})
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+``piece_mesh()`` creates ``{rayvertex}`` objects.
+
+
+.. sourcecode:: r
+    
+
+    library("ppgames") # remotes::install_github("piecepackr/ppgames")
+    library("magrittr")
+    library("rayvertex")
+
+
+::
+
+    ## 
+    ## Attaching package: 'rayvertex'
+
+
+
+::
+
+    ## The following object is masked from 'package:rayrender':
+    ## 
+    ##     r_obj
+
+
+.. sourcecode:: r
+    
+
+    df <- ppgames::df_international_chess()
+    envir <- game_systems("dejavu3d", round=TRUE, pawn="joystick")
+    l <- pmap_piece(df, piece_mesh, trans=op_transform, envir = envir, scale = 0.98, res = 150, as_top="pawn_face")
+    table <- sphere_mesh(c(0, 0, -1e3), radius=1e3, material = material_list(diffuse="grey40"))
+    scene <- Reduce(rayvertex::add_shape, l, init=table)
+    rayvertex::rasterize_scene(scene, lookat = c(4.5, 4, 0), lookfrom=c(4.5, -16, 20),
+                               light_info = directional_light(c(5, -7, 7), intensity = 2.5))
+
+.. figure:: man/figures/README-rayvertex-1.png
+    :alt: plot of chunk rayvertex
+
+    plot of chunk rayvertex
 
 Further documentation
 ~~~~~~~~~~~~~~~~~~~~~

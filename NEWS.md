@@ -1,6 +1,12 @@
 piecepackr 1.8.0
 ================
 
+* New piece_mesh() function that creates {rayvertex} options.
+
+  * Requires suggested package {rayvertex}.
+  * Can further customize how piece_mesh() creates {rayvertex} object
+    by setting {rayvertex_fn} in pp_cfg() configuration list (#247).
+
 * The R6 object returned by `pp_shape()` now has a new `pattern()` method that fills 
   the shape with a specified pattern.  Requires the suggested package `{gridpattern}` (#228).
 
